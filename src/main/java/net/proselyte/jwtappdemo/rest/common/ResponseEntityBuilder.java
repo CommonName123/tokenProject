@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 /**
- * Created by OladyshekX on 26.01.2021
+ * Created by CommonName123 on 26.01.2021
  */
 @Component
 public class ResponseEntityBuilder {

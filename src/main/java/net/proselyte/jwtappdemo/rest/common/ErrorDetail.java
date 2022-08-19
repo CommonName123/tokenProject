@@ -1,7 +1,7 @@
 package net.proselyte.jwtappdemo.rest.common;
 
 /**
- * Created by OladyshekX on 26.01.2021
+ * Created by CommonName123 on 26.01.2021
  */
 public class ErrorDetail {
 
