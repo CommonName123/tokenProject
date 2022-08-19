@@ -11,7 +11,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+/**
+ * Реализация сервиса по работе с продуктами
+ * Created by CommonName123 on 18.08.2022
+ */
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -21,6 +24,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public List<Product> getList(ProductFilter filters) {
+        // логично было бы выводить только те продукты, у которых есть категория и статус активен,
+        // но в задании об этом ни слова
         return productRepository.getListByFilters(filters);
     }
 
@@ -41,6 +46,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void deleteProductById(UUID id) {
+        productRepository.deleteById(id);
+    }
+    @Override
+    @Transactional
+    public void logicalDeleteByCategoryId(UUID id) {
         productRepository.deleteById(id);
     }
 }

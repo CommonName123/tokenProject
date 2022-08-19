@@ -36,4 +36,10 @@ public interface ProductService {
      * @param id
      */
     void deleteProductById(UUID id);
+
+    /**
+     * Логическое удланеие продуктов подчинённых категории
+     * @param id
+     */
+    void logicalDeleteByCategoryId(UUID id);
 }

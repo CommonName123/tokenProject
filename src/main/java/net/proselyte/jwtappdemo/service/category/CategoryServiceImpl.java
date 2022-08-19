@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Реализация сервиса по работе с категориями
+ * Created by CommonName123 on 18.08.2022
+ */
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -38,7 +42,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void deleteCategoryById(UUID id) {
         // проверка на то, что статус у всех продуктов
-
+        // тут немного не понял задание, удалить ссылки на категорию и проставить статус инактив у продуктов
+        // или просто каскадом удалить и продукты
         categoryRepository.deleteById(id);
     }
 }
