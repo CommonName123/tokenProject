@@ -8,8 +8,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import lombok.Data;
 
 import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 
 import org.springdoc.core.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,9 +59,10 @@ public class Config {
 
     @Bean
     public GroupedOpenApi publicUserApi() {
+        //todo http://localhost:8080/v3/api-docs/user/ сейчас выдаёт No OpenAPI resource found for group: user
         return GroupedOpenApi.builder()
-                .group("Category")
-                .pathsToMatch("/category/**")
+                .group("User")
+                .pathsToMatch("/user/**")
                 .build();
     }
 
@@ -71,8 +71,6 @@ public class Config {
                                  @Value("1.0")String appVersion) {
         Server service1 = new Server().url("http://localhost:8080")
                 .description("Dev service");
-        Server service2 = new Server().url("http://localhost:8082")
-                .description("Beta service");
 
         return new OpenAPI().info(new Info().title("Application API")
                         .version(appVersion)
@@ -81,6 +79,6 @@ public class Config {
                                 .url("http://springdoc.org"))
                         .contact(new Contact().name("username")
                                 .email("test@gmail.com")))
-                .servers(Arrays.asList(service1, service2));
+                .servers(Collections.singletonList(service1));
     }
 }

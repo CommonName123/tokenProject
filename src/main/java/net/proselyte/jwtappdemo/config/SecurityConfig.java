@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
                 .antMatchers("/v3/api-docs").permitAll()
+                .antMatchers("/v3/api-docs/**").permitAll()
                 .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                 .antMatchers("/category/getList").permitAll()
                 .antMatchers("/product/getList").permitAll()
