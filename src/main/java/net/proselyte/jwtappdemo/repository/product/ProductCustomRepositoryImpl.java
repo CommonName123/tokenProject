@@ -2,7 +2,7 @@ package net.proselyte.jwtappdemo.repository.product;
 
 import net.proselyte.jwtappdemo.domain.product.Product;
 import net.proselyte.jwtappdemo.repository.HibernateUtil;
-import net.proselyte.jwtappdemo.rest.product.ProductFilter;
+import net.proselyte.jwtappdemo.domain.product.filter.ProductFilter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -28,11 +28,11 @@ public class ProductCustomRepositoryImpl implements ProductCustomRepository {
     public List<Product> getListByFilters(ProductFilter filters){
         String sqlFilters = filters.getFilterList()
                 .stream()
-                .map(x -> x.getField() + " " + (x.isASC() ? "ASC" : "DESC"))
+                .map(x -> x.getField() + " " + (x.getAsc() ? "ASC" : "DESC"))
                 .collect(Collectors.joining(",", "", ""));
         Query query = entityManager.createNativeQuery(
                 "select * from product order by " +
-                        sqlFilters );
+                        sqlFilters);
         List<Product> result = HibernateUtil.aliasToBean(query, Product.class).getResultList();
         return result;
     }

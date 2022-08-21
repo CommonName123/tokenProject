@@ -2,6 +2,7 @@ package net.proselyte.jwtappdemo.domain.product;
 
 import lombok.Data;
 import net.proselyte.jwtappdemo.domain.category.Category;
+import net.proselyte.jwtappdemo.domain.converter.LocalDateTimeToTimestampConverter;
 import net.proselyte.jwtappdemo.json.JsonEntityViaUuidSerializer;
 
 import javax.persistence.*;
@@ -62,9 +63,15 @@ public class Product {
     @JsonDeserialize(using = Category.UuidDesirializer.class)
     private Category category;
 
+    public void setCategory_Id(UUID categoryId) {
+        this.category = new Category(categoryId);
+    }
+
     /**
      * Дата добавления в каталог
      */
+    @Column(columnDefinition = "timestamp")
+    @Convert(converter= LocalDateTimeToTimestampConverter.class)
     private LocalDateTime date;
 
     /**

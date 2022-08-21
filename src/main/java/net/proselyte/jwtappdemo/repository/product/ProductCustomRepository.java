@@ -1,7 +1,7 @@
 package net.proselyte.jwtappdemo.repository.product;
 
 import net.proselyte.jwtappdemo.domain.product.Product;
-import net.proselyte.jwtappdemo.rest.product.ProductFilter;
+import net.proselyte.jwtappdemo.domain.product.filter.ProductFilter;
 
 import java.util.List;
 

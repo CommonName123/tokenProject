@@ -1,4 +1,4 @@
-package net.proselyte.jwtappdemo.rest.product;
+package net.proselyte.jwtappdemo.domain.product.filter;
 
 import lombok.Data;
 
@@ -15,5 +15,5 @@ public class Filter{
     /**
      * Прямой/обратный пордяок
      */
-    private boolean isASC;
+    private Boolean asc;
 }

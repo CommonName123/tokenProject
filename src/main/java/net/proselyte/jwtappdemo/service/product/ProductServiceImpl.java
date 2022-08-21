@@ -3,9 +3,10 @@ package net.proselyte.jwtappdemo.service.product;
 import net.proselyte.jwtappdemo.domain.category.Category;
 import net.proselyte.jwtappdemo.domain.product.Product;
 import net.proselyte.jwtappdemo.repository.product.ProductRepository;
-import net.proselyte.jwtappdemo.rest.product.ProductFilter;
+import net.proselyte.jwtappdemo.domain.product.filter.ProductFilter;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public List<Product> getList(ProductFilter filters) {
+        if (Objects.isNull(filters.getFilterList())){
+            return productRepository.findAll();
+        }
         // логично было бы выводить только те продукты, у которых есть категория и статус активен,
         // но в задании об этом ни слова
         return productRepository.getListByFilters(filters);

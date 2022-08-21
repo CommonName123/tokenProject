@@ -1,4 +1,4 @@
-package net.proselyte.jwtappdemo.rest.product;
+package net.proselyte.jwtappdemo.domain.product.filter;
 
 import lombok.Data;
 
