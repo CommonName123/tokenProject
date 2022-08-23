@@ -96,16 +96,21 @@ public class ProductController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Create product",
+                    description = "Create empty product",
                     content = {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = Product.class))
                     })
     })
+    @RequestMapping(value = "/createEmpty", method = RequestMethod.POST)
+    public ResponseEntity<?> createEmptyProduct(@RequestParam(value = "categoryId",required = true) UUID categoryId) throws IOException {
+        return responseEntityBuilder.buildOk(productService.createEmptyProduct(categoryId));
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<?> createProduct(@RequestParam(value = "categoryId",required = true) UUID categoryId) throws IOException {
-        return responseEntityBuilder.buildOk(productService.createProduct(categoryId));
+    public ResponseEntity<?> createProduct(@RequestBody Product product) throws IOException {
+        return responseEntityBuilder.buildOk(productService.createProduct(product));
     }
 
 

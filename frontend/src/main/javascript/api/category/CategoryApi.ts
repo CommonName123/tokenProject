@@ -17,13 +17,9 @@ class CategoryApi {
     /**
      * Список категорий
      */
-    public getCategories(token:any): Promise<Category[]> {
+    public getCategories(): Promise<Category[]> {
         return this.axiosInstance
-            .get('category/getList',{
-                headers:{
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            .get('category/getList')
             .then((response) => response.data)
             .then((data) => dataToArrayClass(Category,data) || {});
     }

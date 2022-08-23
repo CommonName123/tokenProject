@@ -34,7 +34,7 @@ export const store = new Vuex.Store({
     },
     getters: {
     },
-    plugins: [createPersistedState()]
+    // plugins: [createPersistedState()]
 });
 export const CHANGE_USER = 'changeUser';
 

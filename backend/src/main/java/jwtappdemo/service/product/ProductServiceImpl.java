@@ -35,7 +35,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product createProduct(UUID categoryId) {
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
+    }
+    @Override
+    @Transactional
+    public Product createEmptyProduct(UUID categoryId) {
         Product product = new Product();
         product.setCategory(new Category(categoryId));
         return productRepository.save(product);

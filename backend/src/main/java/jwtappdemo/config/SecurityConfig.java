@@ -46,10 +46,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
                 .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
-                .antMatchers("**/login**").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/js/**").permitAll()
+                .antMatchers("/fonts/**").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/category/getList").authenticated()
                 .antMatchers("/product/getList").authenticated()
-                .anyRequest().permitAll()
+                .antMatchers("/category/*").hasRole("ADMIN")
+                .antMatchers("/product/*").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }

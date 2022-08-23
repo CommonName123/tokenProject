@@ -2,6 +2,7 @@ import {Component, Prop} from "vue-property-decorator";
 import Vue from "vue";
 import {Action} from "vuex-class";
 import {CHANGE_USER, LOG_OUT_USER} from "../stores/store";
+import {axiosFactory} from "../api/AxiosFactory";
 
 /**
  * Меню навигации

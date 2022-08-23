@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { axiosFactory } from '../AxiosFactory';
 import Product from "../../types/Product";
-import {dataToArrayClass} from "../ClassUtil";
+import {dataToArrayClass, dataToClass} from "../ClassUtil";
 
 /**
  * api для продуктов
@@ -15,15 +15,45 @@ class ProductApi {
     /**
      * Получить список продуктов
      */
-    public getProducts(token:any): Promise<Product[]> {
+    public getProducts(): Promise<Product[]> {
         return this.axiosInstance
-            .post('product/getList',{},{
-                headers:{
-                    Authorization: `Bearer ${token}`
+            .post('product/getList',{})
+            .then((response) => response.data)
+            .then((data) => dataToArrayClass(Product,data) || {});
+    }
+
+    /**
+     * Создать продукт
+     */
+    public createProduct(product:Product): Promise<Product> {
+        return this.axiosInstance
+            .post('product/create',product)
+            .then((response) => response.data)
+            .then((data) => dataToClass(Product,data) || {});
+    }
+
+    /**
+     * Создать "пустой" продукт
+     */
+    public createEmptyProduct(categoryId:string): Promise<Product> {
+        return this.axiosInstance
+            .post('product/createEmpty',null,{
+                params:{
+                    categoryId
                 }
             })
             .then((response) => response.data)
-            .then((data) => dataToArrayClass(Product,data) || {});
+            .then((data) => dataToClass(Product,data) || {});
+    }
+
+    /**
+     * Сохранить изменения в продукте
+     */
+    public updateProduct(product:Product): Promise<Product> {
+        return this.axiosInstance
+            .post('product/createEmpty',product)
+            .then((response) => response.data)
+            .then((data) => dataToClass(Product,data) || {});
     }
 
 }

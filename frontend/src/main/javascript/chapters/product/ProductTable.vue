@@ -1,5 +1,10 @@
 <template>
   <el-container direction="vertical">
+    <el-button
+        @click="openCard"
+    >
+      <span>Добавить</span>
+    </el-button>
     <el-table
         ref="productTable"
         :data="products"
@@ -25,9 +30,20 @@
       </el-table-column>
       <el-table-column
           label="Категория"
-          prop="category">
+          prop="categoryName">
       </el-table-column>
     </el-table>
+    <window-card
+        title="Добавить новый продукт"
+        v-if="dialogVisible"
+        :dialogVisible="dialogVisible"
+        saveButton="true"
+        closeButton="true"
+        @on-close="onCloseCard"
+        @on-save="onSave"
+    >
+      <add-product-form ref="addForm"></add-product-form>
+    </window-card>
   </el-container>
 </template>
 

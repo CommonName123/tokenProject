@@ -1,7 +1,7 @@
-import {Component} from "vue-property-decorator";
+import {Component, Watch} from "vue-property-decorator";
 import Vue from "vue";
 import LoginApi from "../../api/login/LoginApi";
-import {Action} from "vuex-class";
+import {Action, State} from "vuex-class";
 import User from "../../types/User";
 import {CHANGE_USER} from "../../stores/store";
 
@@ -33,6 +33,15 @@ export default class LoginScreen extends Vue {
     private updateUserInStore!: (newUser: User) => void;
 
     /**
+     * Пользователь
+     * @private
+     */
+    @State(state => state.user)
+    private user!: User | null;
+
+
+
+    /**
      * Инициализация
      * @private
      */
@@ -40,9 +49,9 @@ export default class LoginScreen extends Vue {
         if (this.login !== "" && this.password !== "") {
             // try to login
             const me = this;
-            LoginApi.doLogin({username:this.login,password:this.password}).then(data=>{
-                me.updateUserInStore(data);
-            },
+            LoginApi.doLogin({username: this.login, password: this.password}).then(data => {
+                    me.updateUserInStore(data);
+                },
                 error => {
                     if (error.response) {
                         alert(error.response.data.detail);
@@ -51,6 +60,5 @@ export default class LoginScreen extends Vue {
                     }
                 });
         }
-
     }
 }

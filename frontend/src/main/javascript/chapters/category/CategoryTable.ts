@@ -20,19 +20,13 @@ export default class CategoryTable extends Vue {
     private categories: Category[] = [];
 
 
-    /**
-     * Пользователь
-     * @private
-     */
-    @State(state => state.user)
-    private user!: User | null;
 
     /**
      * Инициализация
      * @private
      */
     private mounted() {
-        categoryApi.getCategories(this.user?.token).then((data:Category[]) => {
+        categoryApi.getCategories().then((data:Category[]) => {
             this.categories = data;
         });
     }

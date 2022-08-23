@@ -19,10 +19,16 @@ public interface ProductService {
     List<Product> getList(ProductFilter filters);
 
     /**
+     * Создать пустой продукт
+     * @return
+     */
+    Product createEmptyProduct(UUID categoryId);
+
+    /**
      * Создать продукт
      * @return
      */
-    Product createProduct(UUID categoryId);
+    Product createProduct(Product product);
 
     /**
      * Изменить продукт

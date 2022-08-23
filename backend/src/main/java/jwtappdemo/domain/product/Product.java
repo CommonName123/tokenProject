@@ -63,6 +63,10 @@ public class Product {
     @JsonDeserialize(using = Category.UuidDesirializer.class)
     private Category category;
 
+    public String getCategoryName() {
+        return this.category != null ? this.category.getName() : "";
+    }
+
     public void setCategory_Id(UUID categoryId) {
         this.category = new Category(categoryId);
     }
@@ -71,7 +75,7 @@ public class Product {
      * Дата добавления в каталог
      */
     @Column(columnDefinition = "timestamp")
-    @Convert(converter= LocalDateTimeToTimestampConverter.class)
+    @Convert(converter = LocalDateTimeToTimestampConverter.class)
     private LocalDateTime date;
 
     /**
