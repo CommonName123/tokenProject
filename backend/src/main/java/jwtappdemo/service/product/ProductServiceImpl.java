@@ -23,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Product> getList(ProductFilter filters) {
         if (Objects.isNull(filters.getFilterList())){
             return productRepository.findAll();
@@ -55,11 +55,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void deleteProductById(UUID id) {
-        productRepository.deleteById(id);
-    }
-    @Override
-    @Transactional
-    public void logicalDeleteByCategoryId(UUID id) {
         productRepository.deleteById(id);
     }
 }

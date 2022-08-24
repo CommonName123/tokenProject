@@ -70,12 +70,30 @@ public class CategoryController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = Category.class))
+                                    schema = @Schema(implementation = Category.class),
+                                    examples = {
+                                            @ExampleObject(
+                                                    name = "Пример тела на обновление",
+                                                    value = "{" +
+                                                            "\"id\":\"3fa85f64-5717-4562-b3fc-2c963f66afa6\"," +
+                                                            "\"name\":\"Овощи\"," +
+                                                            "\"description\":\"Продукты питания\"" +
+                                                            "}",
+                                                    summary = "Образец №1"),
+                                            @ExampleObject(
+                                                    name = "Пример тела на обновление",
+                                                    value = "{" +
+                                                            "\"id\":\"3fa85f64-5717-4562-b3fc-2c963f66afa1\"," +
+                                                            "\"name\":\"Выпечка\"," +
+                                                            "\"description\":\"Булочки, хлеб и лепёшки\"" +
+                                                            "}",
+                                                    summary = "Образец №2"),
+                                    })
                     })
     })
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<?> createCategory() throws IOException {
-        return responseEntityBuilder.buildOk(categoryService.createCategory());
+    public ResponseEntity<?> createCategory(@RequestBody Category category) throws IOException {
+        return responseEntityBuilder.buildOk(categoryService.createCategory(category));
     }
 
 

@@ -20,7 +20,7 @@ public interface CategoryService {
      * Создать категорию
      * @return
      */
-    Category createCategory();
+    Category createCategory(Category category);
 
     /**
      * Изменить категорию

@@ -10,7 +10,11 @@
     <el-input v-model="form.price"></el-input>
   </el-form-item>
   <el-form-item label="Изображение">
-    <el-input v-model="form.photo"></el-input>
+    <input type="file" accept="image/*" @change="loadPicture">
+    <img
+        :src="photo"
+        style="margin-right: 10px; width: 30%; height: 50%;"
+    />
   </el-form-item>
   <el-form-item label="Категория">
     <el-select v-model="selectedCategoryId"

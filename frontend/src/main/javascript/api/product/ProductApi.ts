@@ -33,27 +33,23 @@ class ProductApi {
     }
 
     /**
-     * Создать "пустой" продукт
-     */
-    public createEmptyProduct(categoryId:string): Promise<Product> {
-        return this.axiosInstance
-            .post('product/createEmpty',null,{
-                params:{
-                    categoryId
-                }
-            })
-            .then((response) => response.data)
-            .then((data) => dataToClass(Product,data) || {});
-    }
-
-    /**
      * Сохранить изменения в продукте
      */
     public updateProduct(product:Product): Promise<Product> {
         return this.axiosInstance
-            .post('product/createEmpty',product)
+            .put('product/update',product)
             .then((response) => response.data)
             .then((data) => dataToClass(Product,data) || {});
+    }
+
+
+    /**
+     * Удалить продукт
+     */
+    public deleteProduct(productId: String): Promise<void> {
+        return this.axiosInstance
+            .delete(`product/${productId}`)
+            .then((response) => response.data);
     }
 
 }

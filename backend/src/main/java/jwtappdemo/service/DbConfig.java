@@ -77,7 +77,7 @@ public class DbConfig {
 
 //        jpaProperties.put(Environment.SHOW_SQL, true);
 //        jpaProperties.put(Environment.FORMAT_SQL, true);
-        jpaProperties.put(Environment.HBM2DDL_AUTO, "update");
+//        jpaProperties.put(Environment.HBM2DDL_AUTO, "update");
 //        jpaProperties.put(Environment.HBM2DLL_CREATE_NAMESPACES, true);
 //        jpaProperties.put(Environment.HBM2DDL_DATABASE_ACTION, "update");
 //        jpaProperties.put(Environment.HBM2DLL_CREATE_SCHEMAS, true);

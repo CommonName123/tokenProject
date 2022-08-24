@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Реализация кастомного репозитория
+ * Created by CommonName123 on 20.08.2022
  */
 public class ProductCustomRepositoryImpl implements ProductCustomRepository {
 

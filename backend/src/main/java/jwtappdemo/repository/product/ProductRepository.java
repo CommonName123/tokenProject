@@ -6,9 +6,14 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Репозиторий для работы с продуктами
+ * Created by CommonName123 on 20.08.2022
+ */
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID>, ProductCustomRepository {
 
@@ -34,8 +39,9 @@ public interface ProductRepository extends JpaRepository<Product, UUID>, Product
      *
      * @return
      */
+    @Modifying
     @Query(value = "update public.product set category_id = null,status=false where category_id = ?1", nativeQuery = true)
-    List<Product> logicalDeleteByCategoryId(UUID categoryId);
+    void logicalDeleteByCategoryId(UUID categoryId);
 
 
 }

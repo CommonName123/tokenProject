@@ -2,6 +2,7 @@ package jwtappdemo.service.category;
 
 import jwtappdemo.domain.category.Category;
 import jwtappdemo.repository.category.CategoryRepository;
+import jwtappdemo.repository.product.ProductRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,16 +21,19 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Category> getList() {
         return categoryRepository.findAll();
     }
 
     @Override
     @Transactional
-    public Category createCategory() {
-        return categoryRepository.save(new Category());
+    public Category createCategory(Category category) {
+        return categoryRepository.save(category);
     }
 
     @Override
@@ -40,10 +44,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public void deleteCategoryById(UUID id) {
-        // проверка на то, что статус у всех продуктов
-        // тут немного не понял задание, удалить ссылки на категорию и проставить статус инактив у продуктов
-        // или просто каскадом удалить и продукты
-        categoryRepository.deleteById(id);
+    public void deleteCategoryById(UUID categoryId) {
+        productRepository.logicalDeleteByCategoryId(categoryId);
+        categoryRepository.deleteById(categoryId);
     }
 }
