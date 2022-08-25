@@ -4,8 +4,8 @@ import productApi from "../../api/product/ProductApi";
 import Product from "../../types/Product";
 import WindowCard from "../../component/card/WindowCard.vue";
 import AddProductForm from "./addProductFrom/AddProductForm.vue";
-import Category from "../../types/Category";
-import categoryApi from "../../api/category/CategoryApi";
+import {State} from "vuex-class";
+import User from "../../types/User";
 
 /**
  * Таблица продуктов
@@ -14,6 +14,14 @@ import categoryApi from "../../api/category/CategoryApi";
 @Component({components: {WindowCard, AddProductForm}})
 export default class ProductTable extends Vue {
     public name: string = 'product-table';
+
+
+    /**
+     * Пользователь
+     * @private
+     */
+    @State(state => state.user)
+    private user!: User | null;
 
     /**
      * Список продуктов
@@ -76,8 +84,29 @@ export default class ProductTable extends Vue {
      */
     private onSave() {
         const addForm: any = this.$refs.addForm;
-        let formData: Product = addForm.form;
+        const formData: Product = addForm.form;
         productApi.updateProduct(formData).then(data => {
+
+            // в теории вся эта работа с токеном в данном запросе излишняя
+            // пользователь не сможет отправить этот запрос из интерфейса, ибо при отсутствии доступа на обновление
+            // он не сможет загрузить картинку т.е. этот метод даже не вызовется,
+            // однако, через какого-нибудь postman'а - запросто
+            if (addForm.photoFile) {
+                const formData = new FormData();
+                formData.append("image", addForm.photoFile);
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'product/saveImage/' + data.id);
+                xhr.setRequestHeader("Authorization","Bearer "+this.user?.token);
+                xhr.onload = function (e: any) {
+                    if (e.currentTarget.status !== 200) {
+                        alert('Произошла ошибка при загрузке изображения');
+                    }
+                }
+                xhr.send(formData);
+            }
+
+
             this.loadTable();
             this.dialogVisible = false;
         });
@@ -118,5 +147,16 @@ export default class ProductTable extends Vue {
      */
     private editProduct() {
         this.dialogVisible = true;
+    }
+
+    /**
+     * Создать картинку в таблице
+     * @param photo
+     * @private
+     */
+    private createSrc(photo:any){
+        const blob = new Blob([photo],{type: 'image/png'});
+        return URL.createObjectURL(blob);
+
     }
 }

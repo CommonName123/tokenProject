@@ -52,8 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/category/getList").authenticated()
                 .antMatchers("/product/getList").authenticated()
-                .antMatchers("/category/*").hasRole("ADMIN")
-                .antMatchers("/product/*").hasRole("ADMIN")
+                .antMatchers("/product/*").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/category/*").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

@@ -28,9 +28,9 @@
       <el-table-column
           label="Изображение"
           prop="photo">
-        <template slot-scope="scope">
+        <template v-if="scope.row.photo!==null" slot-scope="scope">
           <img
-              :src="scope.row.photo"
+              :src="scope.row.getPhotoToTable()"
               style="margin-right: 10px; width: 30%; height: 50%;"
           />
         </template>

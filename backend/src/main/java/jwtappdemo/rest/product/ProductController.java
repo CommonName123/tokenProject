@@ -11,12 +11,18 @@ import jwtappdemo.domain.product.Product;
 import jwtappdemo.rest.common.ResponseEntityBuilder;
 import jwtappdemo.service.product.ProductService;
 
+import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  * Контроллер для работы с продуктами
@@ -34,6 +40,7 @@ public class ProductController {
 
     /**
      * Поулчить список продуктов с фильтрами
+     *
      * @return
      * @throws IOException
      */
@@ -50,8 +57,8 @@ public class ProductController {
                                     value = "{\"filterList\" :[{" +
                                             "\"field\":\"price\"," +
                                             "\"isASC\":true" +
-                                            "},"+
-                                            "{"+
+                                            "}," +
+                                            "{" +
                                             "\"field\":\"name\"," +
                                             "\"isASC\":false" +
                                             "}]}",
@@ -79,44 +86,86 @@ public class ProductController {
 
     /**
      * Создать продукт
+     *
      * @return
      * @throws IOException
      */
     @Operation(summary = "Create product",
             tags = "product",
             method = "POST",
-            parameters = @Parameter(
-                    name = "categoryId",
-                    description = "Идентификатор категории для создания продукта",
-                    required=true,
-                    content = @Content(
-                            schema = @Schema(format = "uuid",type = "string")
-                    )
-            ))
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content =
+            @Content(encoding = @Encoding(name = "product", contentType = "application/json"),
+                    schema = @Schema(implementation = Product.class),
+                    examples = {
+                            @ExampleObject(
+                                    name = "Пример тела на обновление",
+                                    value = "{" +
+                                            "\"id\":\"3fa85f64-5717-4562-b3fc-2c963f66afa0\"," +
+                                            "\"name\":\"Морковь\"," +
+                                            "\"description\":\"Морковь обычная\"," +
+                                            "\"price\":\"35.95\"," +
+                                            "\"photo\": null," +
+                                            "\"category_id\":\"3fa85f64-5717-4562-b3fc-2c963f66afa6\"," +
+                                            "\"date\":\"21-08-2022 1:30\"," +
+                                            "\"status\": true" +
+                                            "}",
+                                    summary = "Образец №1"),
+                            @ExampleObject(
+                                    name = "Пример тела на обновление",
+                                    value = "{" +
+                                            "\"id\":\"3fa85f63-5717-4562-b3fc-2c963f66afa1\"," +
+                                            "\"name\":\"Хлеб б.\"," +
+                                            "\"description\":\"Хлеб бородинский\"," +
+                                            "\"price\":\"33.95\"," +
+                                            "\"photo\": null," +
+                                            "\"category_id\":\"3fa85f64-5717-4562-b3fc-2c963f66afa1\"," +
+                                            "\"date\":\"21-08-2022 1:30\"," +
+                                            "\"status\": true" +
+                                            "}",
+                                    summary = "Образец №2"),
+                    })))
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Create empty product",
+                    description = "Create product",
                     content = {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = Product.class))
                     })
     })
-    @RequestMapping(value = "/createEmpty", method = RequestMethod.POST)
-    public ResponseEntity<?> createEmptyProduct(@RequestParam(value = "categoryId",required = true) UUID categoryId) throws IOException {
-        return responseEntityBuilder.buildOk(productService.createEmptyProduct(categoryId));
-    }
-
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<?> createProduct(@RequestBody Product product) throws IOException {
         return responseEntityBuilder.buildOk(productService.createProduct(product));
     }
 
+    @Operation(summary = "Save product image",
+            tags = "product",
+            method = "POST",
+            description="Запрос из интерфейса посылается через XMLHttpRequest, " +
+                    "в котором лежит FormData с массивом " +
+                    "в котором записан файл(картинка)." +
+                    "Массив лежит под названием \"image\""
+           )
+    @RequestMapping(value = "/saveImage/{id}", method = RequestMethod.POST)
+    public ResponseEntity<?> saveImage(MultipartHttpServletRequest request, HttpServletResponse response,
+                                       @PathVariable UUID id) throws IOException {
+        MultipartFile file = request.getFileMap().get("image");
+        if (Objects.nonNull(file) && !file.isEmpty()) {
+            try (InputStream inputStream = file.getInputStream()) {
+                productService.saveImage(inputStream,id);
+                return responseEntityBuilder.buildOk();
+            } catch (Exception e) {
+                return responseEntityBuilder.buildError(e.getMessage(), e.getMessage());
+            }
+        }
+        return responseEntityBuilder.buildOk();
+    }
 
 
     /**
      * Изменить продукт
+     *
      * @return
      * @throws IOException
      */
@@ -170,9 +219,9 @@ public class ProductController {
     }
 
 
-
     /**
      * Удалить продукт
+     *
      * @return
      * @throws IOException
      */

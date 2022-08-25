@@ -12,6 +12,7 @@
   <el-form-item label="Изображение">
     <input type="file" accept="image/*" @change="loadPicture">
     <img
+        v-if="form.photo || photo"
         :src="photo"
         style="margin-right: 10px; width: 30%; height: 50%;"
     />

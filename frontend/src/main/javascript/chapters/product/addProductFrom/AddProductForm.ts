@@ -18,7 +18,9 @@ export default class AddProductForm extends Vue {
 
     public selectedCategoryId: string = "";
 
-    private photo: string = "";
+    private photo: string | null = null;
+
+    public photoFile: any;
 
     /**
      * Объект полученый для инициализации
@@ -35,9 +37,12 @@ export default class AddProductForm extends Vue {
      */
     @Watch('received', {immediate: true, deep: true})
     private changeReceivedData(received: Category) {
-        this.form = this.received;
-        if (this.form.photo !== null) {
-            this.loadPhoto();
+        if (this.received!=null){
+            this.form = this.received;
+            this.selectedCategoryId = this.received.category;
+            if (this.form.photo !== null) {
+                this.loadPhoto();
+            }
         }
     }
 
@@ -55,8 +60,7 @@ export default class AddProductForm extends Vue {
      * @private
      */
     private loadPhoto() {
-        const blob = new Blob([this.form.photo]);
-        this.photo = URL.createObjectURL(blob);
+        this.photo = this.form.getPhotoToTable();
     }
 
 
@@ -90,11 +94,13 @@ export default class AddProductForm extends Vue {
         const fileReader = new FileReader();
         fileReader.addEventListener('load', this.readFile);
         fileReader.readAsArrayBuffer(file);
+
+        this.photoFile = file;
+
     }
 
     private readFile(event: any) {
         const photo = event.target.result;
-        this.photo = URL.createObjectURL(new Blob([photo],{type: 'image/png'}));
-        this.form.photo = photo;
+        this.photo = URL.createObjectURL(new Blob([photo], {type: 'image/png'}));
     }
 }

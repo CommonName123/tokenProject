@@ -3,6 +3,8 @@ package jwtappdemo.service.product;
 import jwtappdemo.domain.product.Product;
 import jwtappdemo.domain.product.filter.ProductFilter;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,16 +21,16 @@ public interface ProductService {
     List<Product> getList(ProductFilter filters);
 
     /**
-     * Создать пустой продукт
-     * @return
-     */
-    Product createEmptyProduct(UUID categoryId);
-
-    /**
      * Создать продукт
      * @return
      */
     Product createProduct(Product product);
+
+    /**
+     * Сохранить картинку
+     * @return
+     */
+    void saveImage(InputStream inputStream,UUID id) throws IOException;
 
     /**
      * Изменить продукт

@@ -30,6 +30,8 @@ export default class AddCategoryForm extends Vue {
      */
     @Watch('received', {immediate:true,deep: true})
     private changeReceivedData(received: Category) {
-        this.form = this.received;
+        if (this.received!=null){
+            this.form = this.received;
+        }
     }
 }

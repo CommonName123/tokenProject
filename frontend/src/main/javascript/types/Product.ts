@@ -12,4 +12,11 @@ export default class Product {
     private categoryName!:string;       // Категория
     private date!:number;           // Дата добавления в каталог
     private status!:number;         // Статус
+
+    public getPhotoToTable(){
+        if (this.photo!==null){
+            return 'data:image/png;base64,' + this.photo;
+        }
+        return null;
+    }
 }
